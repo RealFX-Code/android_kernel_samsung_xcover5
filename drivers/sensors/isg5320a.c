@@ -630,10 +630,10 @@ static void isg5320a_initialize(struct isg5320a_data *data)
 	if (ret < 0) {
 		for (i = 0; i < (sizeof(setup_reg) >> 1); i++) {
 			isg5320a_i2c_write_one(data, setup_reg[i].addr, setup_reg[i].val);
-			pr_info("%s W %02X %02X\n", ISG5320A_TAG, setup_reg[i].addr,
-				setup_reg[i].val);
+			//pr_info("%s W %02X %02X\n", ISG5320A_TAG, setup_reg[i].addr,
+			//	setup_reg[i].val);
 			isg5320a_i2c_read(data, setup_reg[i].addr, &val, 1);
-			pr_info("%s   %02X %02X\n", ISG5320A_TAG, setup_reg[i].addr, val);
+			//pr_info("%s   %02X %02X\n", ISG5320A_TAG, setup_reg[i].addr, val);
 		}
 	}
 
