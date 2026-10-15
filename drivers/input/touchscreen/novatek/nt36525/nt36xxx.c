@@ -3118,7 +3118,10 @@ static int nvt_fb_notifier_callback(struct notifier_block *self, unsigned long e
 		}
 	} else if (evdata && evdata->data && event == FB_EVENT_BLANK) {
 		blank = evdata->data;
-		if (*blank == FB_BLANK_UNBLANK) {
+		if (*blank == FB_BLANK_POWERDOWN) {
+			input_info(true, &ts->client->dev, "event=%lu, *blank=%d\n", event, *blank);
+			nvt_ts_suspend(&ts->client->dev);
+		} else if (*blank == FB_BLANK_UNBLANK) {
 			input_info(true, &ts->client->dev, "event=%lu, *blank=%d\n", event, *blank);
 			nvt_ts_resume(&ts->client->dev);
 		}
