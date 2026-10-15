@@ -37,8 +37,7 @@
 #define MAX_SECURE_CONNECTION 10
 #define MAX_VAL 0x7FFFFFFF
 
-static int usb_restrict;
-module_param(usb_restrict, int, 0444);
+static int usb_restrict = 0;
 
 struct  ovc {
 	struct otg_notify *o_notify;
