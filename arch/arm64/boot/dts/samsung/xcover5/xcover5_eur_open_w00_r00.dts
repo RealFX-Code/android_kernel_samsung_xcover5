@@ -1242,6 +1242,46 @@
 						compatible = "android,vbmeta";
 						parts = "vbmeta,boot,system,vendor,product,odm,prism,optics,vbmeta_system,recovery,dtbo,keystorage";
 					};
+
+					fstab {
+						compatible = "android,fstab";
+
+						system: system {
+							compatible = "android,system";
+							dev = "system";
+							type = "ext4";
+							mnt_flags = "ro";
+							fsmgr_flags = "wait,logical,first_stage_mount";
+							status = "okay";
+						};
+
+						vendor: vendor {
+							compatible = "android,vendor";
+							dev = "vendor";
+							type = "ext4";
+							mnt_flags = "ro";
+							fsmgr_flags = "wait,logical,first_stage_mount";
+							status = "okay";
+						};
+						
+						product: product {
+							compatible = "android,product";
+							dev = "product";
+							type = "ext4";
+							mnt_flags = "ro";
+							fsmgr_flags = "wait,logical,first_stage_mount";
+							status = "okay";
+						};
+
+						odm: odm {
+							compatible = "android,odm";
+							dev = "odm";
+							type = "ext4";
+							mnt_flags = "ro";
+							fsmgr_flags = "wait,logical,first_stage_mount";
+							status = "okay";
+						};
+					};
 				};
 			};
 
@@ -2328,19 +2368,34 @@
 				};
 
 				panel_power_enable {
-					type = "regulator,enable\0vdd_ldo28\0delay,usleep\01000\0regulator,enable\0gpio_lcd_bl_en\0delay,usleep\01000";
+					type = "regulator,enable", "vdd_ldo28",
+					      "delay,usleep", "1000",
+					      "regulator,enable", "gpio_lcd_bl_en",
+					      "delay,usleep", "1000";
 				};
 
 				panel_power_disable {
-					type = "delay,usleep\03000\0regulator,disable\0gpio_lcd_bl_en\0delay,usleep\05000\0regulator,disable\0vdd_ldo28\0delay,msleep\030";
+					type = "delay,usleep", "3000",
+					      "regulator,disable", "gpio_lcd_bl_en",
+					      "delay,usleep", "5000",
+					      "regulator,disable", "vdd_ldo28",
+					      "delay,msleep", "30";
 				};
 
 				panel_reset {
-					type = "delay,usleep\010000\0regulator,enable\0gpio_lcd_rst\0delay,usleep\01000\0regulator,disable\0gpio_lcd_rst\0delay,usleep\03500\0regulator,enable\0gpio_lcd_rst\0delay,usleep\010000";
+					type = "delay,usleep", "10000",
+					      "regulator,enable", "gpio_lcd_rst",
+					      "delay,usleep", "1000",
+					      "regulator,disable", "gpio_lcd_rst",
+					      "delay,usleep", "3500",
+					      "regulator,enable", "gpio_lcd_rst",
+					      "delay,usleep", "10000";
 				};
 
 				panel_reset_disable {
-					type = "delay,msleep\060\0regulator,disable\0gpio_lcd_rst\0delay,usleep\010000";
+					type = "delay,msleep", "60",
+					      "regulator,disable", "gpio_lcd_rst",
+					      "delay,usleep", "10000";
 				};
 
 				panel_not_connected {
@@ -2593,7 +2648,6 @@
 				pinctrl-2 = <0x21 0xffffffff>;
 				novatek,resolution = <0x2d0 0x5c8>;
 				novatek,enable_settings_aot;
-				novatek,enable_sysinput_enabled;
 				novatek,fw_name = "nt36525_xcover5.bin";
 				novatek,fw_name_mp = "nt36525_xcover5_mp.bin";
 				novatek,regulator_lcd_vdd = "vdd_ldo28";
